@@ -23,7 +23,7 @@ touch:
 	touch tmp/restart.txt
 
 pylint:
-	pylint --rcfile .pylintrc --fail-under=$(PYLINT_THRESHOLD) --verbose $(PYLINT_FILES)
+	$(PYTHON) -m pylint --rcfile .pylintrc --fail-under=$(PYLINT_THRESHOLD) --verbose $(PYLINT_FILES)
 
 flake8:
 	flake8 $(PYLINT_FILES)

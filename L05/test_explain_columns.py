@@ -1,6 +1,9 @@
+"""
+test_explain_columns.py - a test program
+"""
+
 import os
 import argparse
-import pytest
 import explain_columns
 
 FROM_FILE_CONTENTS="this,is,a,test\n1,2,3,4\n5,6,7,8\n"

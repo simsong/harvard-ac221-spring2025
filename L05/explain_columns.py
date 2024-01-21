@@ -1,6 +1,9 @@
+"""
+explain_columns.py - explain the columns of a csv file
+"""
+
 import argparse
 import csv
-import random
 
 def main():
     parser = argparse.ArgumentParser()

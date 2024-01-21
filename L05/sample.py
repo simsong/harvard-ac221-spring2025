@@ -1,8 +1,12 @@
+"""
+sample.py - sample a csv file
+"""
+
 import argparse
 import csv
 import random
 
-def main()
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("from_file")
     parser.add_argument("to_file")
