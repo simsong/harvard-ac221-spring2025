@@ -25,15 +25,15 @@ jobs:
 
       - name: install Ubuntu-specific stuff
         if: startsWith(matrix.os, 'ubuntu')
-        run: install-ubuntu
+        run: make install-ubuntu
 
       - name: install Ubuntu-specific stuff
         if: startsWith(matrix.os, 'macos')
-        run: install-macos
+        run: make install-macos
 
       - name: install Ubuntu-specific stuff
         if: startsWith(matrix.os, 'windows')
-        run: install-windows
+        run: make install-windows
 
       - name: Lint with pylint
         run: make pylint
