@@ -9,6 +9,9 @@ import pytest                   # pylint: disable=unused-import   (needed for mo
 
 FROM_FILE_CONTENTS="this,is,a,test\n1,2,3,4\n5,6,7,8\n"
 
+# Note: mocker below is magically created because pytest-mock is included in the runtime environment.
+# see https://pypi.org/project/pytest-mock/
+
 def test_explain_columns(mocker):
     with open('from_file.csv','w') as from_file:
         from_file.write(FROM_FILE_CONTENTS)

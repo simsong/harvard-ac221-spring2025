@@ -2,7 +2,6 @@
 # Note: when this runs on Dreamhost, we need to use the python in $HOME/opt/bin
 #
 
-PYLINT_FILES=$(shell find . -name '*.py')
 PYTHON=python3			# defaults to current python3
 PIP_INSTALL=$(PYTHON) -m pip install --no-warn-script-location --user
 
@@ -23,10 +22,7 @@ touch:
 	touch tmp/restart.txt
 
 pylint:
-	$(PYTHON) -m pylint --rcfile .pylintrc --fail-under=$(PYLINT_THRESHOLD) --verbose $(PYLINT_FILES)
-
-flake8:
-	flake8 $(PYLINT_FILES)
+	$(PYTHON) -m pylint --rcfile .pylintrc --fail-under=$(PYLINT_THRESHOLD) --verbose .
 
 pytest:
 	$(PYTHON) -m pytest --log-cli-level=DEBUG .
@@ -50,16 +46,13 @@ install-python-dependencies:
 install-ubuntu:
 	make install-python-dependencies
 
-# Includes MacOS dependencies managed through Brew
+# Includes MacOS
 install-macos:
-	brew update
-	brew upgrade
-	brew install python3
 	make install-python-dependencies
-	if [ -r requirements-macos.txt ]; then $(PIP_INSTALL) -r requirements-macos.txt ; else echo no requirements-ubuntu.txt ; fi
+	if [ -r requirements-macos.txt ]; then $(PIP_INSTALL) -r requirements-macos.txt ; else echo no requirements-macos.txt ; fi
 
 
 # Includes Windows dependencies
 install-windows:
 	make install-python-dependencies
-	if [ -r requirements-windows.txt ]; then $(PIP_INSTALL) -r requirements-windows.txt ; else echo no requirements-ubuntu.txt ; fi
+	if [ -r requirements-windows.txt ]; then $(PIP_INSTALL) -r requirements-windows.txt ; else echo no requirements-windows.txt ; fi
