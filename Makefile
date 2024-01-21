@@ -47,17 +47,19 @@ install-python-dependencies:
 	$(PYTHON) -m pip install --upgrade pip
 	if [ -r requirements.txt ]; then $(PIP_INSTALL) -r requirements.txt ; else echo no requirements.txt ; fi
 
+install-ubuntu:
+	make install-python-dependencies
+
 # Includes MacOS dependencies managed through Brew
 install-macos:
 	brew update
 	brew upgrade
 	brew install python3
-	$(PYTHON) -m pip install --upgrade pip
+	make install-python-dependencies
 	if [ -r requirements-macos.txt ]; then $(PIP_INSTALL) -r requirements-macos.txt ; else echo no requirements-ubuntu.txt ; fi
-	if [ -r requirements.txt ];       then $(PIP_INSTALL) -r requirements.txt ; else echo no requirements.txt ; fi
+
 
 # Includes Windows dependencies
 install-windows:
-	$(PYTHON) -m pip install --upgrade pip
+	make install-python-dependencies
 	if [ -r requirements-windows.txt ]; then $(PIP_INSTALL) -r requirements-windows.txt ; else echo no requirements-ubuntu.txt ; fi
-	if [ -r requirements.txt ];         then $(PIP_INSTALL) -r requirements.txt ; else echo no requirements.txt ; fi

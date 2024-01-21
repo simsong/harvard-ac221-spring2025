@@ -8,7 +8,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: ['ubuntu-latest', 'macos-latest']   # with MySQL service, we now only run on ubuntu
+        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']   # with MySQL service, we now only run on ubuntu
         python-version: [3.11]   # installed version on Dreamhost
     runs-on: ${{ matrix.os }}
 
@@ -23,34 +23,33 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Lint with pylint
-        run: |
-          make pylint
-
-      - name: Validate database access
-        run: |
-          python3 -m pytest -x --log-cli-level=DEBUG tests/dbreader_test.py
-
-      - name: Validate app framework
-        run: |
-          python3 -m pytest -x --log-cli-level=DEBUG tests/app_test.py -k test_templates
-
-      - name: Run coverage test
+      - name: install Ubuntu-specific stuff
         if: startsWith(matrix.os, 'ubuntu')
-        env:
-          SKIP_ENDPOINT_TEST:   ${{ vars.SKIP_ENDPOINT_TEST }}
-        run: |
-          CHROME_PATH=${{ steps.setup-chrome.outputs.chrome-path }} make coverage
+        run: install-ubuntu
+
+      - name: install Ubuntu-specific stuff
+        if: startsWith(matrix.os, 'macos')
+        run: install-macos
+
+      - name: install Ubuntu-specific stuff
+        if: startsWith(matrix.os, 'windows')
+        run: install-windows
+
+      - name: Lint with pylint
+        run: make pylint
+
+      - name: Run coverage test (only on ubuntu)
+        if: startsWith(matrix.os, 'ubuntu')
+        run: make coverage
 
       - name: Upload to codecov.io
         if: startsWith(matrix.os, 'ubuntu')
         uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true
-          files: ./coverage.xml
 
-      - name: Show files in directory
-        run: |
-          make coverage
-          ls -l
+
+      - name: List all files at end
+        run: find . -ls
