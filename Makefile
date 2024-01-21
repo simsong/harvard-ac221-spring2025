@@ -3,7 +3,7 @@
 #
 
 PYLINT_FILES=$(shell find . -name '*.py')
-PYTHON=python3.11
+PYTHON=python3			# defaults to current python3
 PIP_INSTALL=$(PYTHON) -m pip install --no-warn-script-location --user
 
 # By default, PYLINT generates an error if your code does not rank 10.0.
