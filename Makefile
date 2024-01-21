@@ -2,7 +2,7 @@
 # Note: when this runs on Dreamhost, we need to use the python in $HOME/opt/bin
 #
 
-PYLINT_FILES=$(shell /bin/ls *.py)
+PYLINT_FILES=$(shell find . -name '*.py')
 PYTHON=python3.11
 PIP_INSTALL=$(PYTHON) -m pip install --no-warn-script-location --user
 
