@@ -34,7 +34,7 @@ pytest:
 coverage:
 	$(PYTHON) -m pip install --upgrade pip
 	$(PIP_INSTALL) codecov pytest pytest_cov
-	$(PYTHON) -m pytest -v --cov=. --cov-report=xml tests
+	$(PYTHON) -m pytest -v --cov=. --cov-report=xml .
 
 clean:
 	find . -name '*~' -exec rm {} \;
