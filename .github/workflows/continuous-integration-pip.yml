@@ -1,22 +1,43 @@
 # See https://docs.github.com/en/actions/guides/building-and-testing-python
-# 2020-02-20 slg - For Dreamhost, we are now using Python 3.9 and Ubuntu-18.04
-# There is no way to generate a random password that can be used in the services section, so that will need to be moved to a repository secret of RANDOM_PASSWORD
 name: CI (pip)
-on: [push, pull_request]
+
+on:
+  push:
+    branches:
+      - '**' # This will trigger the action for all branches
+  pull_request:
+    branches:
+      - main # Specify the branches for which pull_request events should trigger the action
 
 jobs:
   build:
     strategy:
       matrix:
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']   # with MySQL service, we now only run on ubuntu
-        python-version: [3.11]   # installed version on Dreamhost
+        python-version: [3.12]
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Initial checkout
+        uses: actions/checkout@v4
         with:
           submodules: true
+
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Conditional step for push events
+      - name: Run on push
+        if: github.event_name == 'push'
+        run: echo "This runs on a push to any branch"
+
+      # Conditional step for pull_request events
+      - name: Run on pull request
+        if: github.event_name == 'pull_request'
+        run: echo "This runs on a pull request to the main branch"
+
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
@@ -27,11 +48,11 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu')
         run: make install-ubuntu
 
-      - name: install Ubuntu-specific stuff
+      - name: install Mac-specific stuff
         if: startsWith(matrix.os, 'macos')
         run: make install-macos
 
-      - name: install Ubuntu-specific stuff
+      - name: install Windows-specific stuff
         if: startsWith(matrix.os, 'windows')
         run: make install-windows
 
@@ -52,4 +73,5 @@ jobs:
 
 
       - name: List all files at end
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os, 'macos')
         run: find . -ls
