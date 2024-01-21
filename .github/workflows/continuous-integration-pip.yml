@@ -73,4 +73,5 @@ jobs:
 
 
       - name: List all files at end
+        if: startsWith(matrix.os, 'ubuntu') or startsWith(matrix.os, 'macos')
         run: find . -ls
