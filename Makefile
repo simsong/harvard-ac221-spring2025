@@ -22,7 +22,7 @@ touch:
 	touch tmp/restart.txt
 
 pylint:
-	$(PYTHON) -m pylint --rcfile .pylintrc --fail-under=$(PYLINT_THRESHOLD) --verbose $(git ls-files '*.py')
+	$(PYTHON) -m pylint --rcfile .pylintrc --fail-under=$(PYLINT_THRESHOLD) --verbose --recursive=y .
 
 pytest:
 	$(PYTHON) -m pytest --log-cli-level=DEBUG .
