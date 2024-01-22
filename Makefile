@@ -33,8 +33,10 @@ coverage:
 	$(PYTHON) -m pytest -v --cov=. --cov-report=xml .
 
 clean:
-	find . -name '*~' -exec rm {} \;
+	find . -name '*~' -print0 | xargs -0 rm -v
 
+pdoc:
+	pdoc --html -o docs --force L05
 
 ################################################################
 # Installations are used by the CI pipeline:
