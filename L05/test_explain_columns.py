@@ -2,14 +2,14 @@
 test_explain_columns.py - a test program
 """
 
+import sys
+from os.path import dirname
 import os
 import argparse
 import pytest                   # pylint: disable=unused-import   (needed for mocker below)
 
-import sys
-from os.path import abspath,dirname
 sys.path.append( dirname( __file__ ))
-import explain_columns
+import explain_columns          # pylint: disable=wrong-import-position
 
 
 FROM_FILE_CONTENTS="this,is,a,test\n1,2,3,4\n5,6,7,8\n"
