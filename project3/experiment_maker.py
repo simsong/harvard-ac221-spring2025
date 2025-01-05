@@ -49,9 +49,9 @@ def draw_person(count):
 @click.option("--ccount", default=1, help="Number of probe people to use who are in the template database")
 @click.option("--pphotos", default=1, help="Number of probes to used for each probe person")
 @click.option("--templatedb", type=click.Path(), help="Template DB output filename", default='templatedb.tsv')
-@click.option("--probedb", type=click.Path(), help="Probe DB output filename", default='probedb.tsv')
+@click.option("--probes", type=click.Path(), help="Probe DB output filename", default='probes.tsv')
 # pylint: disable=too-many-arguments,too-many-positional-arguments,too-many-locals,too-many-branches
-def experiment_maker(photodir,tcount,tphotos,ocount,ccount,pphotos,templatedb,probedb):
+def experiment_maker(photodir,tcount,tphotos,ocount,ccount,pphotos,templatedb,probes):
     """Make the experiment files"""
     click.echo(f"Scanning {photodir}")
 
@@ -121,7 +121,7 @@ def experiment_maker(photodir,tcount,tphotos,ocount,ccount,pphotos,templatedb,pr
                 f.write(f"{name}\t{photo}\n")
 
     # Now create the probe db
-    with open(probedb,"w",encoding='utf-8') as f:
+    with open(probes,"w",encoding='utf-8') as f:
         f.write("name\tfname\tstatus\n")
         for (name,fnames) in sorted(closed_probes.items()):
             for fname in fnames:
