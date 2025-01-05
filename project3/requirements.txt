@@ -2,3 +2,4 @@ pylint
 boto3
 requests
 click
+deepface
